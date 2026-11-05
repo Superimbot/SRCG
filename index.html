@@ -51,11 +51,11 @@
             align-items: center;
         }
 
-        /* ETIQUETA DE PERFIL RETRO AL LADO DEL BOTÓN */
+        /* ETIQUETA DE PERFIL RETRO LIMPIA (SIN BOTÓN DE SALIR ACCIDENTAL) */
         .user-badge {
             background-color: #ffffff;
             border: 1px solid #002d96;
-            padding: 4px 8px;
+            padding: 4px 10px;
             font-size: 11px;
             color: #000;
             font-weight: bold;
@@ -66,12 +66,15 @@
             gap: 6px;
         }
 
-        .user-badge a {
-            color: #cc0000;
+        .user-badge span.clickable-name {
+            color: #0000cc;
             cursor: pointer;
             text-decoration: underline;
-            font-weight: normal;
-            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .user-badge span.clickable-name:hover {
+            color: #cc0000;
         }
 
         /* BOTÓN AZUL CLARO: CREAR PERFIL */
@@ -229,7 +232,7 @@
             text-decoration: none;
         }
 
-        /* --- VENTANA DE REGISTRO FORMULARIO RETRO BLANCO --- */
+        /* --- MODAL GENERAL --- */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -307,6 +310,33 @@
             cursor: pointer;
             margin-top: 5px;
         }
+
+        /* --- ESTILOS DEL MODAL DE PERFIL Y BOTÓN PEQUEÑO --- */
+        .profile-box {
+            text-align: left;
+            background: #fff;
+            padding: 10px;
+            border: 1px solid #7f9db9;
+            margin: 10px 0;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+        
+        .btn-small-danger {
+            background: linear-gradient(to bottom, #cc0000, #800000);
+            color: #fff;
+            border: 1px solid #500;
+            padding: 3px 8px;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 2px;
+            margin-top: 5px;
+        }
+
+        .btn-small-danger:hover {
+            background: linear-gradient(to bottom, #e60000, #990000);
+        }
     </style>
 </head>
 <body>
@@ -316,7 +346,7 @@
         <div class="site-title">SRCG</div>
 
         <div class="header-right-zone">
-            <!-- Zona dinámica del perfil / botón de registro -->
+            <!-- Zona dinámica del perfil (Nombre limpio interactivo) -->
             <div id="userProfileArea"></div>
 
             <!-- Botón oficial de Play Now -->
@@ -410,7 +440,7 @@
         </div>
     </div>
 
-    <!-- FORMULARIO RETRO FLOTANTE -->
+    <!-- FORMULARIO RETRO FLOTANTE: REGISTRO -->
     <div class="modal-overlay" id="registerModal">
         <div class="retro-card">
             <h3>¡REGÍSTRATE Y DIVIÉRTETE!</h3>
@@ -418,9 +448,9 @@
             <div class="form-group">
                 <label>Fecha de nacimiento</label>
                 <div class="date-selects">
-                    <select><option>Día</option><option>1</option><option>15</option><option>30</option></select>
-                    <select><option>Mes</option><option>Ene</option><option>Jul</option><option>Dic</option></select>
-                    <select><option>Año</option><option>2006</option><option>2010</option></select>
+                    <select id="regDay"><option>Día</option><option>1</option><option>15</option><option>30</option></select>
+                    <select id="regMonth"><option>Mes</option><option>Ene</option><option>Jul</option><option>Dic</option></select>
+                    <select id="regYear"><option>Año</option><option>2006</option><option>2010</option></select>
                 </div>
             </div>
 
@@ -431,6 +461,24 @@
 
             <button class="btn-submit" onclick="registerAccount()">¡Registrarme!</button>
             <button class="btn-close" onclick="closeModal()">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- VENTANA EMERGENTE (MODAL): DETALLES DEL PERFIL CON BOTÓN DE SALIDA SEGURO -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="retro-card">
+            <h3>Perfil de Usuario</h3>
+            
+            <div class="profile-box">
+                <p><strong>Usuario:</strong> <span id="profileModalName">-</span></p>
+                <p><strong>Fecha de Registro:</strong> <span id="profileModalDate">-</span></p>
+                <p><strong>Status:</strong> <span style="color: green; font-weight: bold;">● En línea</span></p>
+                <div style="margin-top: 8px; border-top: 1px dashed #ccc; padding-top: 5px;">
+                    <button class="btn-small-danger" onclick="confirmLogout()">Cerrar Sesión</button>
+                </div>
+            </div>
+
+            <button class="btn-close" onclick="closeProfileModal()">Cerrar</button>
         </div>
     </div>
 
@@ -449,8 +497,8 @@
             let area = document.getElementById("userProfileArea");
 
             if (savedUser) {
-                // Si está registrado, muestra una tarjeta blanca retro con su nombre
-                area.innerHTML = '<div class="user-badge"><span>👤 ' + savedUser + '</span> <a onclick="logoutUser()">(Salir)</a></div>';
+                // Header limpio: solo muestra el icono y el nombre interactivo sin botones voladores de salida
+                area.innerHTML = '<div class="user-badge"><span>👤 </span><span class="clickable-name" onclick="openProfileModal()">' + savedUser + '</span></div>';
             } else {
                 // Si no se ha registrado, muestra el botón azul claro
                 area.innerHTML = '<button class="btn-create-profile" onclick="openModal()">Crear Perfil en SRCG</button>';
@@ -465,6 +513,23 @@
             document.getElementById("registerModal").style.display = "none";
         }
 
+        function openProfileModal() {
+            let activeUser = localStorage.getItem("srcg_active_user");
+            let usersData = JSON.parse(localStorage.getItem("srcg_users_full_data")) || {};
+
+            if (activeUser) {
+                document.getElementById("profileModalName").innerText = activeUser;
+                let joinDate = usersData[activeUser] || "2006";
+                document.getElementById("profileModalDate").innerText = joinDate;
+                
+                document.getElementById("profileModal").style.display = "flex";
+            }
+        }
+
+        function closeProfileModal() {
+            document.getElementById("profileModal").style.display = "none";
+        }
+
         function registerAccount() {
             let input = document.getElementById("regUsername");
             let cleanName = input.value.trim();
@@ -475,13 +540,20 @@
             }
 
             let registeredUsers = JSON.parse(localStorage.getItem("srcg_users_list")) || [];
+            let usersData = JSON.parse(localStorage.getItem("srcg_users_full_data")) || {};
+            
             let userExists = registeredUsers.some(user => user.toLowerCase() === cleanName.toLowerCase());
 
             if (userExists) {
                 alert("¡Este nombre de usuario ya existe! Por favor, elige otro.");
             } else {
                 registeredUsers.push(cleanName);
+                
+                let currentDate = new Date().toLocaleDateString();
+                usersData[cleanName] = currentDate;
+
                 localStorage.setItem("srcg_users_list", JSON.stringify(registeredUsers));
+                localStorage.setItem("srcg_users_full_data", JSON.stringify(usersData));
                 localStorage.setItem("srcg_active_user", cleanName);
                 
                 checkSession();
@@ -490,9 +562,17 @@
             }
         }
 
-        function logoutUser() {
-            localStorage.removeItem("srcg_active_user");
-            checkSession();
+        /* --- FUNCIÓN DE SALIDA SEGURA CON CONFIRMACIÓN PERSONALIZADA --- */
+        function confirmLogout() {
+            let activeUser = localStorage.getItem("srcg_active_user");
+            if (activeUser) {
+                let seguro = confirm(`¿Estás seguro de que quieres cerrar sesión "${activeUser}"?`);
+                if (seguro) {
+                    localStorage.removeItem("srcg_active_user");
+                    closeProfileModal();
+                    checkSession();
+                }
+            }
         }
 
         function openStudio() {
@@ -501,6 +581,3 @@
     </script>
 </body>
 </html>
-
-
-

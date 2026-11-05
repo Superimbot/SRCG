@@ -51,7 +51,6 @@
             align-items: center;
         }
 
-        /* ETIQUETA DE PERFIL RETRO LIMPIA (SIN BOTÓN DE SALIR ACCIDENTAL) */
         .user-badge {
             background-color: #ffffff;
             border: 1px solid #002d96;
@@ -77,7 +76,6 @@
             color: #cc0000;
         }
 
-        /* BOTÓN AZUL CLARO: CREAR PERFIL */
         .btn-create-profile {
             background: linear-gradient(to bottom, #62b5e5, #1b7da8);
             color: #ffffff;
@@ -94,7 +92,6 @@
             background: linear-gradient(to bottom, #7accf8, #2394c7);
         }
 
-        /* BOTÓN AZUL OSCURO: PLAY NOW */
         .btn-play-now {
             background: linear-gradient(to bottom, #2b60de, #002080);
             color: #ffffff;
@@ -107,22 +104,31 @@
             cursor: pointer;
         }
 
-        /* --- NAVEGACIÓN --- */
+        /* --- NAVEGACIÓN COMPLETA ESTILO 2006 --- */
         .main-nav {
             width: 100%;
             max-width: 950px;
             background: linear-gradient(to bottom, #608ec2, #396499);
-            padding: 4px 10px;
+            padding: 5px 10px;
             display: flex;
-            gap: 12px;
+            gap: 8px;
+            align-items: center;
             border-bottom: 1px solid #1a3557;
+            font-size: 11px;
         }
 
         .main-nav a {
             color: #ffffff;
             text-decoration: none;
-            font-size: 11px;
             font-weight: bold;
+        }
+
+        .main-nav a:hover {
+            text-decoration: underline;
+        }
+
+        .main-nav .separator {
+            color: #d0e0ff;
         }
 
         /* --- CONTENEDOR PRINCIPAL --- */
@@ -181,6 +187,7 @@
             color: #333;
         }
 
+        /* CUADRÍCULA DE JUEGOS DINÁMICA */
         .games-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -213,6 +220,33 @@
         .players-online {
             color: #cc0000;
             font-weight: bold;
+        }
+
+        /* ESTILO CUANDO NO HAY JUEGOS */
+        .no-games-box {
+            grid-column: span 3;
+            background: #f9f9f9;
+            border: 2px dashed #7f9db9;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .no-games-box h4 {
+            font-size: 14px;
+            color: #cc0000;
+            margin-bottom: 6px;
+        }
+
+        .btn-build-now {
+            background: linear-gradient(to bottom, #008000, #004d00);
+            color: #fff;
+            border: 1px solid #003300;
+            padding: 6px 14px;
+            font-weight: bold;
+            font-size: 11px;
+            cursor: pointer;
+            border-radius: 3px;
+            margin-top: 8px;
         }
 
         footer {
@@ -311,7 +345,6 @@
             margin-top: 5px;
         }
 
-        /* --- ESTILOS DEL MODAL DE PERFIL Y BOTÓN PEQUEÑO --- */
         .profile-box {
             text-align: left;
             background: #fff;
@@ -333,10 +366,6 @@
             border-radius: 2px;
             margin-top: 5px;
         }
-
-        .btn-small-danger:hover {
-            background: linear-gradient(to bottom, #e60000, #990000);
-        }
     </style>
 </head>
 <body>
@@ -346,24 +375,21 @@
         <div class="site-title">SRCG</div>
 
         <div class="header-right-zone">
-            <!-- Zona dinámica del perfil (Nombre limpio interactivo) -->
             <div id="userProfileArea"></div>
-
-            <!-- Botón oficial de Play Now -->
             <button class="btn-play-now" onclick="openStudio()">PLAY NOW IN ORIGINAL ROBLOX!</button>
         </div>
     </div>
 
-    <!-- Barra de Navegación -->
+    <!-- Barra de Navegación Completa -->
     <div class="main-nav">
-        <a href="#">My SRCG</a> |
-        <a href="#" style="text-decoration:underline;">Games</a> |
-        <a href="#">Catalog</a> |
-        <a href="#">People</a> |
-        <a href="#">Builders Club</a> |
-        <a href="#">Forum</a> |
-        <a href="#">News 📰</a> |
-        <a href="#">Parents</a> |
+        <a href="my.html">My SRCG</a> <span class="separator">|</span>
+        <a href="index.html" style="text-decoration:underline;">Games</a> <span class="separator">|</span>
+        <a href="#">Catalog</a> <span class="separator">|</span>
+        <a href="#">People</a> <span class="separator">|</span>
+        <a href="#">Builders Club</a> <span class="separator">|</span>
+        <a href="#">Forum</a> <span class="separator">|</span>
+        <a href="#">News 📰</a> <span class="separator">|</span>
+        <a href="#">Parents</a> <span class="separator">|</span>
         <a href="#">Help</a>
     </div>
 
@@ -391,56 +417,17 @@
         <div class="content">
             <div class="page-header">
                 <span class="page-title">Games</span>
-                <span class="pagination">Page 1 of 23: <a href="#">Next >></a></span>
+                <span class="pagination">Page 1 of 1</span>
             </div>
 
-            <div class="games-grid">
-                <div class="game-card">
-                    <div class="game-thumb" style="background:#1a2b3c;">
-                        <div style="background:#285528; width:100%; height:30px; position:absolute; bottom:0;"></div>
-                    </div>
-                    <a href="#" class="game-title-link" onclick="openStudio()">Halo's Greatest Battle</a>
-                    <div class="game-info">
-                        Updated: <span>2 hours ago</span><br>
-                        Creator: <a href="#">Denominator16</a><br>
-                        Favorited: <span>28 times</span><br>
-                        Played: <span>298 times</span><br>
-                        <span class="players-online">156 players online</span>
-                    </div>
-                </div>
-
-                <div class="game-card">
-                    <div class="game-thumb" style="background:#2b3a1a;">
-                        <div style="background:#a0522d; width:80px; height:20px; position:absolute;"></div>
-                    </div>
-                    <a href="#" class="game-title-link" onclick="openStudio()">Tippy Ship in Poison Lake</a>
-                    <div class="game-info">
-                        Updated: <span>5 minutes ago</span><br>
-                        Creator: <a href="#">Matt1995</a><br>
-                        Favorited: <span>76 times</span><br>
-                        Played: <span>1,056 times</span><br>
-                        <span class="players-online">338 players online</span>
-                    </div>
-                </div>
-
-                <div class="game-card">
-                    <div class="game-thumb" style="background:#3a1a1a;">
-                        <div style="background:#c20000; width:40px; height:40px; position:absolute;"></div>
-                    </div>
-                    <a href="#" class="game-title-link" onclick="openStudio()">build a store earn robux</a>
-                    <div class="game-info">
-                        Updated: <span>16 minutes ago</span><br>
-                        Creator: <a href="#">Ryanrocks47</a><br>
-                        Favorited: <span>34 times</span><br>
-                        Played: <span>268 times</span><br>
-                        <span class="players-online">95 players online</span>
-                    </div>
-                </div>
+            <!-- CUADRÍCULA DE JUEGOS CARGADA DINÁMICAMENTE -->
+            <div class="games-grid" id="gamesGridContainer">
+                <!-- Se llena automáticamente con localStorage -->
             </div>
         </div>
     </div>
 
-    <!-- FORMULARIO RETRO FLOTANTE: REGISTRO -->
+    <!-- MODAL REGISTRO -->
     <div class="modal-overlay" id="registerModal">
         <div class="retro-card">
             <h3>¡REGÍSTRATE Y DIVIÉRTETE!</h3>
@@ -464,7 +451,7 @@
         </div>
     </div>
 
-    <!-- VENTANA EMERGENTE (MODAL): DETALLES DEL PERFIL CON BOTÓN DE SALIDA SEGURO -->
+    <!-- MODAL PERFIL -->
     <div class="modal-overlay" id="profileModal">
         <div class="retro-card">
             <h3>Perfil de Usuario</h3>
@@ -490,6 +477,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             checkSession();
+            loadGamesList();
         });
 
         function checkSession() {
@@ -497,11 +485,45 @@
             let area = document.getElementById("userProfileArea");
 
             if (savedUser) {
-                // Header limpio: solo muestra el icono y el nombre interactivo sin botones voladores de salida
                 area.innerHTML = '<div class="user-badge"><span>👤 </span><span class="clickable-name" onclick="openProfileModal()">' + savedUser + '</span></div>';
             } else {
-                // Si no se ha registrado, muestra el botón azul claro
                 area.innerHTML = '<button class="btn-create-profile" onclick="openModal()">Crear Perfil en SRCG</button>';
+            }
+        }
+
+        /* --- CARGAR JUEGOS DINÁMICAMENTE DESDE LOCALSTORAGE --- */
+        function loadGamesList() {
+            let container = document.getElementById("gamesGridContainer");
+            let gamesList = JSON.parse(localStorage.getItem("srcg_games_list")) || [];
+
+            if (gamesList.length === 0) {
+                // Si no hay juegos publicados, muestra el mensaje clásico
+                container.innerHTML = `
+                    <div class="no-games-box">
+                        <h4>No hay Juegos Creados</h4>
+                        <p style="color:#555; margin-bottom: 8px;">Nadie ha publicado ningún mapa todavía en SRCG.</p>
+                        <button class="btn-build-now" onclick="openStudio()">¡Crea tu primer juego en Studio!</button>
+                    </div>
+                `;
+            } else {
+                // Si hay juegos, los dibuja en la cuadrícula
+                let html = "";
+                gamesList.forEach(game => {
+                    html += `
+                        <div class="game-card">
+                            <div class="game-thumb" style="background:#1a2b3c;">
+                                <div style="background:#285528; width:100%; height:25px; position:absolute; bottom:0;"></div>
+                            </div>
+                            <a href="#" class="game-title-link" onclick="openStudio()">${game.title}</a>
+                            <div class="game-info">
+                                Creator: <a href="#">${game.creator}</a><br>
+                                Played: <span>0 times</span><br>
+                                <span class="players-online">Server Online</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
             }
         }
 
@@ -562,7 +584,6 @@
             }
         }
 
-        /* --- FUNCIÓN DE SALIDA SEGURA CON CONFIRMACIÓN PERSONALIZADA --- */
         function confirmLogout() {
             let activeUser = localStorage.getItem("srcg_active_user");
             if (activeUser) {
